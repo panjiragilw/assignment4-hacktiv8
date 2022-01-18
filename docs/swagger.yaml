@@ -1,0 +1,269 @@
+definitions:
+  doc_datas.CreateTodoRequest:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      description:
+        example: Cook fried rice with egg and chicken
+        type: string
+      title:
+        example: Make Dinner
+        type: string
+    type: object
+  doc_datas.CreateTodoResponse:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      description:
+        example: Cook fried rice with egg and chicken
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: Make Dinner
+        type: string
+    type: object
+  doc_datas.DeleteTodoResponse:
+    properties:
+      affected_row:
+        example: 1
+        type: integer
+      status_delete:
+        example: Success
+        type: string
+    type: object
+  doc_datas.GetAllTodosResponse:
+    properties:
+      todos:
+        items:
+          $ref: '#/definitions/doc_datas.GetTodoResponse'
+        type: array
+    type: object
+  doc_datas.GetTodoResponse:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      description:
+        example: Cook fried chicken with spicy sauce
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: Make Delicious Dinner
+        type: string
+    type: object
+  doc_datas.UpdateTodoRequest:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      description:
+        example: Cook fried chicken with spicy sauce
+        type: string
+      title:
+        example: Make Delicious Dinner
+        type: string
+    type: object
+  doc_datas.UpdateTodoResponse:
+    properties:
+      completed:
+        example: false
+        type: boolean
+      description:
+        example: Cook fried chicken with spicy sauce
+        type: string
+      id:
+        example: 1
+        type: integer
+      title:
+        example: Make Delicious Dinner
+        type: string
+    type: object
+  error_utils.MessageErrData:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /todo:
+    get:
+      consumes:
+      - application/json
+      description: Getting all todos
+      operationId: get-all-todos
+      parameters:
+      - description: todo's todo id
+        in: path
+        name: todoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/doc_datas.GetAllTodosResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+      summary: Get all todos
+      tags:
+      - todo
+    post:
+      consumes:
+      - application/json
+      description: creating a new todo
+      operationId: create-todo
+      parameters:
+      - description: request body json
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/doc_datas.CreateTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/doc_datas.CreateTodoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+      summary: Create a todo
+      tags:
+      - todo
+  /todo/{todoId}:
+    delete:
+      consumes:
+      - application/json
+      description: Deleting a todo by ID
+      operationId: delete-todo
+      parameters:
+      - description: todo's todo id
+        in: path
+        name: todoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/doc_datas.DeleteTodoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+      summary: Delete todo by ID
+      tags:
+      - todo
+    get:
+      consumes:
+      - application/json
+      description: Getting a todo by ID
+      operationId: get-todo
+      parameters:
+      - description: todo's todo id
+        in: path
+        name: todoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/doc_datas.GetTodoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+      summary: Get todo by ID
+      tags:
+      - todo
+    put:
+      consumes:
+      - application/json
+      description: Updating a todo by ID
+      operationId: update-todo
+      parameters:
+      - description: request body json
+        in: body
+        name: RequestBody
+        required: true
+        schema:
+          $ref: '#/definitions/doc_datas.UpdateTodoRequest'
+      - description: todo's todo id
+        in: path
+        name: todoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/doc_datas.UpdateTodoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/error_utils.MessageErrData'
+      summary: Update todo
+      tags:
+      - todo
+swagger: "2.0"
